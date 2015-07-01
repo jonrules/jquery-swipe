@@ -35,8 +35,18 @@
 					swipeY = evt.touches[0].pageY;
 				}
 			}, false);
+			this.addEventListener('mousedown', function (evt) {
+				evt.preventDefault();
+				swipeX = evt.screenX;
+				swipeY = evt.screenY;
+			}, false);
 			
 			this.addEventListener('touchend', function (evt) {
+				evt.preventDefault();
+				swipeX = 0;
+				swipeY = 0;
+			}, false);
+			this.addEventListener('mouseup', function (evt) {
 				evt.preventDefault();
 				swipeX = 0;
 				swipeY = 0;
@@ -54,6 +64,20 @@
 								$(this).trigger('swipe', [dx, dy]);
 								swipeTime = now;
 							}
+						}
+					}
+				}
+			}, false);
+			this.addEventListener('mousemove', function (evt) {
+				evt.preventDefault();
+				var now = new Date();
+				if ((now - swipeTime) > minSwipeTime) {
+					if (swipeX > 0 || swipeY > 0) {
+						var dx = evt.screenX - swipeX;
+						var dy = evt.screenY - swipeY;
+						if (Math.abs(dx) > minDx || Math.abs(dy) > minDy) {
+							$(this).trigger('swipe', [dx, dy]);
+							swipeTime = now;
 						}
 					}
 				}
