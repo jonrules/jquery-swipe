@@ -54,31 +54,31 @@
 			
 			this.addEventListener('touchmove', function (evt) {
 				evt.preventDefault();
-				var now = new Date();
-				if ((now - swipeTime) > minSwipeTime) {
-					if (evt.touches.length > 0) {
-						if (swipeX > 0 || swipeY > 0) {
-							var dx = evt.touches[0].pageX - swipeX;
-							var dy = evt.touches[0].pageY - swipeY;
-							if (Math.abs(dx) > minDx || Math.abs(dy) > minDy) {
-								$(this).trigger('swipe', [dx, dy]);
-								swipeTime = now;
-							}
+				if (evt.touches.length > 0) {
+					if (swipeX > 0 || swipeY > 0) {
+						var dx = evt.touches[0].pageX - swipeX;
+						var dy = evt.touches[0].pageY - swipeY;
+						$(this).trigger('swipe-step', [dx, dy]);
+						var now = new Date();
+						if ((now - swipeTime) > minSwipeTime
+								&& (Math.abs(dx) > minDx || Math.abs(dy) > minDy)) {
+							$(this).trigger('swipe', [dx, dy]);
+							swipeTime = now;
 						}
 					}
 				}
 			}, false);
 			this.addEventListener('mousemove', function (evt) {
 				evt.preventDefault();
-				var now = new Date();
-				if ((now - swipeTime) > minSwipeTime) {
-					if (swipeX > 0 || swipeY > 0) {
-						var dx = evt.screenX - swipeX;
-						var dy = evt.screenY - swipeY;
-						if (Math.abs(dx) > minDx || Math.abs(dy) > minDy) {
-							$(this).trigger('swipe', [dx, dy]);
-							swipeTime = now;
-						}
+				if (swipeX > 0 || swipeY > 0) {
+					var dx = evt.screenX - swipeX;
+					var dy = evt.screenY - swipeY;
+					$(this).trigger('swipe-step', [dx, dy]);
+					var now = new Date();
+					if ((now - swipeTime) > minSwipeTime 
+							&& (Math.abs(dx) > minDx || Math.abs(dy) > minDy)) {
+						$(this).trigger('swipe', [dx, dy]);
+						swipeTime = now;
 					}
 				}
 			}, false);
