@@ -1,4 +1,4 @@
-# jquery-swipe
+# jQuery Swipe
 A jQuery plugin that adds swipe events to elements.
 
 ## Arguments
